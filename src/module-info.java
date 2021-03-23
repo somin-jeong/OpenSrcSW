@@ -1,4 +1,4 @@
-module Gitlab01 {
+module Gitlab03 {
 	requires java.xml;
 	requires kkma;
 }
