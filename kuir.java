@@ -19,6 +19,11 @@ public class kuir {
 			makeKeyword.make(args[1]);
 		}else if(args[0].equals("-i")) {
 			indexer.make(args[1]);
+		}else if(args[0].equals("-s")) {
+			if(args[2].equals("-q")) {
+				searcher.query(args[3]);
+			}
+			searcher.make(args[1]);
 		}
 		
 	}
