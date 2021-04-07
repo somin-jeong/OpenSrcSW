@@ -37,64 +37,7 @@ public class searcher {
 		System.out.println(data);
 	}
 	
-	
-	public static void make(String args) throws IOException, ClassNotFoundException, ParserConfigurationException, SAXException {
-		
-		String url = args.replace("index.post", "collection.xml");
-
-		
-		DocumentBuilderFactory dbFactoty = DocumentBuilderFactory.newInstance();
-		DocumentBuilder dBuilder = dbFactoty.newDocumentBuilder();
-		Document doc = null;
-		try{
-			doc = dBuilder.parse(url);
-		}catch(MalformedURLException e) {
-			
-		}
-		
-		Element root = doc.getDocumentElement();
-
-		
-		NodeList child = root.getChildNodes();
-		String[] title = new String[child.getLength()];
-		
-		for(int i = 0; i < child.getLength(); i++) {
-			Node node = child.item(i);
-
-			if(node.getNodeType() == Node.ELEMENT_NODE) {
-				Element ele = (Element)node;
-				
-				// <doc id = "0">
-				String nodeName = ele.getNodeName();
-				String s = null;
-				
-				if(nodeName.equals("doc")){
-					s = ele.getAttribute("id");
-				}
-				
-				// <title> <body>
-				NodeList children = ele.getChildNodes();
-				
-				for(int j = 0; j < children.getLength(); j++) {
-					Node node1 = children.item(j);
-					if(node.getNodeType() == Node.ELEMENT_NODE) {
-						Element ele1 = (Element)node1;
-						String nodeName1 = ele1.getNodeName();
-						String ti = ele1.getTextContent();
-						ti.trim();
-						if(nodeName1 == "title") {
-							title[i] = ti;
-
-						}
-					}
-				}	
-				
-			}
-		}
-		
-		
-	
-		
+	public static double[] CalcSim(String args) throws IOException, ClassNotFoundException {
 		KeywordExtractor ke = new KeywordExtractor();
 		KeywordList kl = ke.extractKeyword(data, true);
 		
@@ -153,11 +96,71 @@ public class searcher {
 					}
 				}
 				
-			}
-			
-			
+			}	
+		}
+		
+		return id;
+	}
+	
+	
+	public static void make(String args) throws IOException, ClassNotFoundException, ParserConfigurationException, SAXException {
+		
+		String url = args.replace("index.post", "collection.xml");
+
+		
+		DocumentBuilderFactory dbFactoty = DocumentBuilderFactory.newInstance();
+		DocumentBuilder dBuilder = dbFactoty.newDocumentBuilder();
+		Document doc = null;
+		try{
+			doc = dBuilder.parse(url);
+		}catch(MalformedURLException e) {
 			
 		}
+		
+		Element root = doc.getDocumentElement();
+
+		
+		NodeList child = root.getChildNodes();
+		String[] title = new String[child.getLength()];
+		
+		for(int i = 0; i < child.getLength(); i++) {
+			Node node = child.item(i);
+
+			if(node.getNodeType() == Node.ELEMENT_NODE) {
+				Element ele = (Element)node;
+				
+				// <doc id = "0">
+				String nodeName = ele.getNodeName();
+				String s = null;
+				
+				if(nodeName.equals("doc")){
+					s = ele.getAttribute("id");
+				}
+				
+				// <title> <body>
+				NodeList children = ele.getChildNodes();
+				
+				for(int j = 0; j < children.getLength(); j++) {
+					Node node1 = children.item(j);
+					if(node.getNodeType() == Node.ELEMENT_NODE) {
+						Element ele1 = (Element)node1;
+						String nodeName1 = ele1.getNodeName();
+						String ti = ele1.getTextContent();
+						ti.trim();
+						if(nodeName1 == "title") {
+							title[i] = ti;
+
+						}
+					}
+				}	
+				
+			}
+		}
+		
+		
+		double[] id = CalcSim(args);
+		
+		
 		
 		for(int i=0; i<id.length; i++) {
 			System.out.println(id[i]);
