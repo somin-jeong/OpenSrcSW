@@ -40,7 +40,6 @@ public class searcher {
 	public static double[] InnerProduct(String args) throws IOException, ClassNotFoundException {
 		KeywordExtractor ke = new KeywordExtractor();
 		KeywordList kl = ke.extractKeyword(data, true);
-	
 		
 		
 		FileInputStream fileinputstream = new FileInputStream(args);
