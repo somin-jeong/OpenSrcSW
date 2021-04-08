@@ -40,8 +40,9 @@ public class searcher {
 	public static double[] CalcSim(String args) throws IOException, ClassNotFoundException {
 		KeywordExtractor ke = new KeywordExtractor();
 		KeywordList kl = ke.extractKeyword(data, true);
+	
 		
-
+		
 		FileInputStream fileinputstream = new FileInputStream(args);
 		ObjectInputStream ois = new ObjectInputStream(fileinputstream);
 		
