@@ -37,7 +37,7 @@ public class searcher {
 		System.out.println(data);
 	}
 	
-	public static double[] CalcSim(String args) throws IOException, ClassNotFoundException {
+	public static double[] CalcSim2(String args) throws IOException, ClassNotFoundException {
 		KeywordExtractor ke = new KeywordExtractor();
 		KeywordList kl = ke.extractKeyword(data, true);
 	
@@ -159,7 +159,7 @@ public class searcher {
 		}
 		
 		
-		double[] id = CalcSim(args);
+		double[] id = CalcSim2(args);
 		
 		
 		
