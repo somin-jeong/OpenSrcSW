@@ -49,6 +49,8 @@ public class searcher {
 		ois.close();
 
 
+		double[] qid = new double[5];
+		double[] wq = new double[kl.size()];
 		double[] id = new double[5];
 		
 		for(int k=0; k<kl.size(); k++) {
@@ -61,6 +63,10 @@ public class searcher {
 			Keyword kwrd = kl.get(k);
 			
 			content = kwrd.getString();
+			wq[k] = (double)kwrd.getCnt();
+			
+			
+			
 			while(it.hasNext()) {
 				String key = it.next();
 				
@@ -72,24 +78,29 @@ public class searcher {
 					  
 					    String s = value.get(i).toString();
 					    double d = Double.valueOf(s).doubleValue();
+					    
 						if(d == 0.0) {
-							id[0] += (double)kwrd.getCnt() * (double)value.get(i+1);
-							
+							id[0] += (double)value.get(i+1) * (double)value.get(i+1);
+							qid[0] += wq[k] * (double)value.get(i+1);
 						}
 						if(d==1.0) {
-							id[1] += (double)kwrd.getCnt() * (double)value.get(i+1);
+							id[1] += (double)value.get(i+1) * (double)value.get(i+1);
+							qid[1] += wq[k] * (double)value.get(i+1);
 							
 						}
 						if(d==2.0) {
-							id[2] += (double)kwrd.getCnt() * (double)value.get(i+1);
+							id[2] += (double)value.get(i+1) * (double)value.get(i+1);
+							qid[2] += wq[k] * (double)value.get(i+1);
 							
 						}
 						if(d==3.0) {
-							id[3] += (double)kwrd.getCnt() * (double)value.get(i+1);
+							id[3] += (double)value.get(i+1) * (double)value.get(i+1);
+							qid[3] += wq[k] * (double)value.get(i+1);
 							
 						}
 						if(d==4.0) {
-							id[4] += (double)kwrd.getCnt() * (double)value.get(i+1);
+							id[4] += (double)value.get(i+1) * (double)value.get(i+1);
+							qid[4] += wq[k] * (double)value.get(i+1);
 						
 						}
 						
@@ -99,7 +110,22 @@ public class searcher {
 			}	
 		}
 		
-		return id;
+		double[] simqid = new double[5];
+		for(int i=0; i<simqid.length; i++) {
+			double q = 0.0;
+			for(int j=0; j<kl.size(); j++) {
+				q += wq[j] * wq[j];
+			}
+		
+			if(qid[i] == 0.0) {
+				simqid[i] = 0.0;
+			}else
+				simqid[i] = qid[i] / (Math.sqrt(q)*Math.sqrt(id[i]));
+		}
+		
+		
+		
+		return simqid;
 	}
 	
 	
@@ -163,7 +189,10 @@ public class searcher {
 		
 		
 		for(int i=0; i<id.length; i++) {
-			System.out.println(id[i]);
+			if(id[i]!=0.0) {
+				id[i] = Math.round(id[i]*100)/100.0;
+			}
+				System.out.println(id[i]);
 		}
 		
 		
